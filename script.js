@@ -16,6 +16,8 @@ function parseDescriptions(text) {
     const lines = text.split('\n').filter(line => line.trim() !== '');
 	descriptions = lines.map(line => {
         const [name, description] = line.split(':'); 
+	console.log("name = " + name);
+	console.log("description = " + description);
         return { name: name.trim(), description: description.trim() };
     });
     getRandomDescription(); 
