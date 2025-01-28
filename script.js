@@ -2,7 +2,6 @@ let descriptions = [];
 let currentDescription;
 let correctName;
 
-// Fetch descriptions from the external text file
 async function loadDescriptions() {
     try {
         const response = await fetch('descriptions.txt');
@@ -13,17 +12,15 @@ async function loadDescriptions() {
     }
 }
 
-// Parse the text file into an array of objects
 function parseDescriptions(text) {
-    const lines = text.split('\n').filter(line => line.trim() !== ''); // Split by lines and remove empty lines
-    descriptions = lines.map(line => {
-        const [name, description] = line.split(':'); // Split each line by the delimiter
+    const lines = text.split('\n').filter(line => line.trim() !== '');
+	descriptions = lines.map(line => {
+        const [name, description] = line.split(':'); 
         return { name: name.trim(), description: description.trim() };
     });
-    getRandomDescription(); // Start the game after loading descriptions
+    getRandomDescription(); 
 }
 
-// Get a random description from the loaded data
 function getRandomDescription() {
     const randomIndex = Math.floor(Math.random() * descriptions.length);
     currentDescription = descriptions[randomIndex];
@@ -32,10 +29,9 @@ function getRandomDescription() {
     populateNameOptions();
 }
 
-// Populate the datalist with unique names
 function populateNameOptions() {
     const datalist = document.getElementById('name-options');
-    datalist.innerHTML = ''; // Clear previous options
+    datalist.innerHTML = ''; 
     const names = [...new Set(descriptions.map(desc => desc.name))];
     names.forEach(name => {
         const option = document.createElement('option');
@@ -44,7 +40,6 @@ function populateNameOptions() {
     });
 }
 
-// Check the user's answer
 function checkAnswer() {
     const userInput = document.getElementById('name-input').value.trim();
     const body = document.body;
@@ -53,7 +48,7 @@ function checkAnswer() {
         setTimeout(() => {
             body.classList.remove('correct');
             getRandomDescription();
-            document.getElementById('name-input').value = ''; // Clear input
+            document.getElementById('name-input').value = '';
         }, 500);
     } else {
         body.classList.add('incorrect');
@@ -63,8 +58,6 @@ function checkAnswer() {
     }
 }
 
-// Event listener for the submit button
 document.getElementById('submit').addEventListener('click', checkAnswer);
 
-// Load descriptions when the page loads
 loadDescriptions();
